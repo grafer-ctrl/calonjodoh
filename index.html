@@ -100,7 +100,7 @@
 
         .zodiac-card h3 {
             margin: 0 0 10px 0;
-            color: #ffcc00; /* Warna kuning untuk zodiak */
+            color: #ffcc00;
         }
         
         footer {
@@ -108,7 +108,6 @@
             opacity: 0.7;
         }
         
-        /* === [BARU] CSS UNTUK KEBIJAKAN PRIVASI === */
         .privacy-link {
             cursor: pointer;
             text-decoration: underline;
@@ -116,7 +115,7 @@
         }
 
         .modal-overlay {
-            display: none; /* Sembunyi secara default */
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -165,7 +164,8 @@
     <div class="container">
         <header>
             <h1>Cek Kecocokan Jodohmu</h1>
-            <p>Pilih tanggal lahirmu untuk melihat zodiak wanita yang cocok denganmu.</p>
+            <!-- [DIPERBARUI] Teks di sini diubah menjadi lebih netral -->
+            <p>Pilih tanggal lahirmu untuk melihat zodiak yang cocok denganmu.</p>
         </header>
         <main>
             <div class="input-section">
@@ -179,32 +179,24 @@
         </main>
         <footer>
             <p>Dibuat untuk Mini App TikTok</p>
-            <!-- [BARU] Tautan untuk membuka Kebijakan Privasi -->
             <p><a class="privacy-link" onclick="openPrivacyModal()">Kebijakan Privasi</a></p>
         </footer>
     </div>
 
-    <!-- === [BARU] HTML UNTUK MODAL KEBIJAKAN PRIVASI === -->
+    <!-- === HTML UNTUK MODAL KEBIJAKAN PRIVASI === -->
     <div id="privacyModal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-button" onclick="closePrivacyModal()">&times;</span>
             <h2>Kebijakan Privasi</h2>
             <p><strong>Tanggal Efektif:</strong> 11 November 2025</p>
             <p>Terima kasih telah menggunakan aplikasi Kecocokan Jodoh Berdasarkan Zodiak. Privasi Anda penting bagi kami. Kebijakan Privasi ini menjelaskan informasi apa yang kami kumpulkan dan bagaimana kami menggunakannya.</p>
-            
             <h4>Informasi yang Kami Kumpulkan</h4>
             <p>Satu-satunya informasi yang Anda masukkan ke dalam aplikasi ini adalah <strong>Tanggal Lahir</strong> Anda. Kami tidak meminta nama, email, atau informasi pribadi lainnya.</p>
-
             <h4>Bagaimana Kami Menggunakan Informasi Anda</h4>
-            <p>Tanggal lahir yang Anda masukkan hanya digunakan untuk satu tujuan:</p>
-            <ul>
-                <li>Untuk menghitung zodiak Anda dan menampilkan hasil kecocokan zodiak berdasarkan logika internal aplikasi.</li>
-            </ul>
+            <p>Tanggal lahir yang Anda masukkan hanya digunakan untuk satu tujuan: Untuk menghitung zodiak Anda dan menampilkan hasil kecocokan zodiak berdasarkan logika internal aplikasi.</p>
             <p>Semua proses kalkulasi terjadi sepenuhnya di perangkat Anda (sisi klien/browser). Informasi tanggal lahir Anda <strong>TIDAK PERNAH</strong> dikirim, disimpan, atau dibagikan ke server kami atau pihak ketiga manapun. Setelah Anda menutup atau me-refresh aplikasi, informasi tersebut akan hilang.</p>
-
             <h4>Keamanan Data</h4>
             <p>Karena kami tidak menyimpan data pribadi Anda, risiko kebocoran data dari sisi kami tidak ada.</p>
-
             <h4>Perubahan Kebijakan</h4>
             <p>Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Setiap perubahan akan diposting di halaman ini.</p>
         </div>
@@ -212,8 +204,7 @@
 
     <!-- === BAGIAN JAVASCRIPT (LOGIKA APLIKASI) === -->
     <script>
-        // Client Key Anda
-        const clientKey = "awta1kk1pzhvu4tk";
+        const clientKey = "aw0lvo8h823i";
         console.log("Client Key:", clientKey);
 
         function getZodiacSign(day, month) {
@@ -257,13 +248,15 @@
             const userZodiac = getZodiacSign(day, month);
             const compatibleSigns = zodiacCompatibility[userZodiac];
             const resultDiv = document.getElementById("result");
-            resultDiv.innerHTML = `<div class="zodiac-card"><h3>Zodiak Kamu: ${userZodiac}</h3><p>${zodiacDates[userZodiac]}</p></div><h2>Zodiak Wanita yang Cocok Untukmu:</h2>`;
+            
+            // [DIPERBARUI] Teks di dalam <h2> diubah sesuai permintaan
+            resultDiv.innerHTML = `<div class="zodiac-card"><h3>Zodiak Kamu: ${userZodiac}</h3><p>${zodiacDates[userZodiac]}</p></div><h2>Zodiak yang Cocok Untukmu:</h2>`;
+            
             compatibleSigns.forEach(sign => {
                 resultDiv.innerHTML += `<div class="zodiac-card"><h3>${sign}</h3><p>Lahir antara ${zodiacDates[sign]}</p></div>`;
             });
         }
 
-        // === [BARU] JAVASCRIPT UNTUK MODAL KEBIJAKAN PRIVASI ===
         const modal = document.getElementById("privacyModal");
 
         function openPrivacyModal() {
@@ -274,7 +267,6 @@
             modal.style.display = "none";
         }
 
-        // Menutup modal jika pengguna mengklik di luar area konten
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
@@ -282,5 +274,4 @@
         }
     </script>
 </body>
-
 </html>
