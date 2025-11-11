@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kecocokan Jodoh Berdasarkan Zodiak</title>
+
+    <!-- === BAGIAN CSS (GAYA TAMPILAN) === -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .input-section {
+            margin: 25px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .input-section label {
+            font-weight: bold;
+        }
+
+        #birthdate {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            width: 80%;
+            max-width: 250px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            background-color: #ff4081;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #f50057;
+            transform: scale(1.05);
+        }
+
+        .result-section {
+            margin-top: 20px;
+        }
+
+        .zodiac-card {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .zodiac-card:hover {
+             transform: translateY(-5px);
+        }
+
+        .zodiac-card h3 {
+            margin: 0 0 10px 0;
+            color: #ffcc00; /* Warna kuning untuk zodiak */
+        }
+        
+        footer {
+            margin-top: 25px;
+            opacity: 0.7;
+        }
+        
+        /* === [BARU] CSS UNTUK KEBIJAKAN PRIVASI === */
+        .privacy-link {
+            cursor: pointer;
+            text-decoration: underline;
+            color: white;
+        }
+
+        .modal-overlay {
+            display: none; /* Sembunyi secara default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            color: #333;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 85%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+            text-align: left;
+        }
+        
+        .modal-content h2 {
+            text-align: center;
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <!-- === BAGIAN HTML (STRUKTUR KONTEN) === -->
+    <div class="container">
+        <header>
+            <h1>Cek Kecocokan Jodohmu</h1>
+            <p>Pilih tanggal lahirmu untuk melihat zodiak wanita yang cocok denganmu.</p>
+        </header>
+        <main>
+            <div class="input-section">
+                <label for="birthdate">Tanggal Lahir Kamu:</label>
+                <input type="date" id="birthdate" name="birthdate">
+                <button onclick="checkCompatibility()">Cek Kecocokan</button>
+            </div>
+            <div id="result" class="result-section">
+                <!-- Hasil akan ditampilkan di sini -->
+            </div>
+        </main>
+        <footer>
+            <p>Dibuat untuk Mini App TikTok</p>
+            <!-- [BARU] Tautan untuk membuka Kebijakan Privasi -->
+            <p><a class="privacy-link" onclick="openPrivacyModal()">Kebijakan Privasi</a></p>
+        </footer>
+    </div>
+
+    <!-- === [BARU] HTML UNTUK MODAL KEBIJAKAN PRIVASI === -->
+    <div id="privacyModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button" onclick="closePrivacyModal()">&times;</span>
+            <h2>Kebijakan Privasi</h2>
+            <p><strong>Tanggal Efektif:</strong> 11 November 2025</p>
+            <p>Terima kasih telah menggunakan aplikasi Kecocokan Jodoh Berdasarkan Zodiak. Privasi Anda penting bagi kami. Kebijakan Privasi ini menjelaskan informasi apa yang kami kumpulkan dan bagaimana kami menggunakannya.</p>
+            
+            <h4>Informasi yang Kami Kumpulkan</h4>
+            <p>Satu-satunya informasi yang Anda masukkan ke dalam aplikasi ini adalah <strong>Tanggal Lahir</strong> Anda. Kami tidak meminta nama, email, atau informasi pribadi lainnya.</p>
+
+            <h4>Bagaimana Kami Menggunakan Informasi Anda</h4>
+            <p>Tanggal lahir yang Anda masukkan hanya digunakan untuk satu tujuan:</p>
+            <ul>
+                <li>Untuk menghitung zodiak Anda dan menampilkan hasil kecocokan zodiak berdasarkan logika internal aplikasi.</li>
+            </ul>
+            <p>Semua proses kalkulasi terjadi sepenuhnya di perangkat Anda (sisi klien/browser). Informasi tanggal lahir Anda <strong>TIDAK PERNAH</strong> dikirim, disimpan, atau dibagikan ke server kami atau pihak ketiga manapun. Setelah Anda menutup atau me-refresh aplikasi, informasi tersebut akan hilang.</p>
+
+            <h4>Keamanan Data</h4>
+            <p>Karena kami tidak menyimpan data pribadi Anda, risiko kebocoran data dari sisi kami tidak ada.</p>
+
+            <h4>Perubahan Kebijakan</h4>
+            <p>Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Setiap perubahan akan diposting di halaman ini.</p>
+        </div>
+    </div>
+
+    <!-- === BAGIAN JAVASCRIPT (LOGIKA APLIKASI) === -->
+    <script>
+        // Client Key Anda
+        const clientKey = "aw0lvo875r8h823i";
+        console.log("Client Key:", clientKey);
+
+        function getZodiacSign(day, month) {
+            if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Aquarius";
+            if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "Pisces";
+            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
+            if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Taurus";
+            if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Gemini";
+            if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cancer";
+            if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Leo";
+            if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Virgo";
+            if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Libra";
+            if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Scorpio";
+            if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Sagittarius";
+            if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "Capricorn";
+            return "Unknown";
+        }
+
+        const zodiacCompatibility = {
+            "Aries": ["Leo", "Sagittarius", "Gemini"], "Taurus": ["Virgo", "Capricorn", "Cancer"], "Gemini": ["Libra", "Aquarius", "Leo"],
+            "Cancer": ["Scorpio", "Pisces", "Taurus"], "Leo": ["Aries", "Sagittarius", "Libra"], "Virgo": ["Taurus", "Capricorn", "Cancer"],
+            "Libra": ["Gemini", "Aquarius", "Leo"], "Scorpio": ["Cancer", "Pisces", "Virgo"], "Sagittarius": ["Leo", "Aries", "Aquarius"],
+            "Capricorn": ["Taurus", "Virgo", "Scorpio"], "Aquarius": ["Gemini", "Libra", "Sagittarius"], "Pisces": ["Cancer", "Scorpio", "Taurus"]
+        };
+
+        const zodiacDates = {
+            "Aries": "21 Maret - 19 April", "Taurus": "20 April - 20 Mei", "Gemini": "21 Mei - 20 Juni", "Cancer": "21 Juni - 22 Juli",
+            "Leo": "23 Juli - 22 Agustus", "Virgo": "23 Agustus - 22 September", "Libra": "23 September - 22 Oktober", "Scorpio": "23 Oktober - 21 November",
+            "Sagittarius": "22 November - 21 Desember", "Capricorn": "22 Desember - 19 Januari", "Aquarius": "20 Januari - 18 Februari", "Pisces": "19 Februari - 20 Maret"
+        };
+
+        function checkCompatibility() {
+            const birthdateInput = document.getElementById("birthdate").value;
+            if (!birthdateInput) {
+                alert("Silakan masukkan tanggal lahir Anda terlebih dahulu.");
+                return;
+            }
+            const birthdate = new Date(birthdateInput);
+            const day = birthdate.getDate();
+            const month = birthdate.getMonth() + 1;
+            const userZodiac = getZodiacSign(day, month);
+            const compatibleSigns = zodiacCompatibility[userZodiac];
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `<div class="zodiac-card"><h3>Zodiak Kamu: ${userZodiac}</h3><p>${zodiacDates[userZodiac]}</p></div><h2>Zodiak Wanita yang Cocok Untukmu:</h2>`;
+            compatibleSigns.forEach(sign => {
+                resultDiv.innerHTML += `<div class="zodiac-card"><h3>${sign}</h3><p>Lahir antara ${zodiacDates[sign]}</p></div>`;
+            });
+        }
+
+        // === [BARU] JAVASCRIPT UNTUK MODAL KEBIJAKAN PRIVASI ===
+        const modal = document.getElementById("privacyModal");
+
+        function openPrivacyModal() {
+            modal.style.display = "block";
+        }
+
+        function closePrivacyModal() {
+            modal.style.display = "none";
+        }
+
+        // Menutup modal jika pengguna mengklik di luar area konten
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
